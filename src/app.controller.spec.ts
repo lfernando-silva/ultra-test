@@ -16,7 +16,11 @@ describe('AppController', () => {
 
   describe('root', () => {
     it('should return the current timestamp', () => {
-      expect(appController.getHello()).toBe(Number);
+      const resp = { timestamp: appController.getHello() };
+
+      expect(resp).toEqual({
+        timestamp: expect.any(String),
+      });
     });
   });
 });

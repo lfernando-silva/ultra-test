@@ -9,8 +9,8 @@ export class Game {
   @Column()
   price: number;
 
-  @Column()
-  tags: string[];
+  @Column({ array: true })
+  tags: string;
 
   @Column()
   releaseDate: Date;
