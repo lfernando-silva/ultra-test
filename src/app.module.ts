@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { GamesModule } from './games/games.module';
 
 const envFilePath = `.env.${process.env.NODE_ENV || 'development'}`;
 
@@ -11,6 +12,7 @@ const envFilePath = `.env.${process.env.NODE_ENV || 'development'}`;
       isGlobal: true,
       envFilePath,
     }),
+    GamesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

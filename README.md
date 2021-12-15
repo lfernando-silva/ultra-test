@@ -29,33 +29,55 @@
 ## Installation
 
 ```bash
-$ npm install
+$ yarn
+```
+
+## Running database (docker)
+
+```bash
+# See .env file to manage database credentials
+$ docker-compose up -d games
 ```
 
 ## Running the app
 
 ```bash
 # development
-$ npm run start
+$ yarn start
 
 # watch mode
-$ npm run start:dev
+$ yarn start:dev
 
 # production mode
-$ npm run start:prod
+$ yarn start:prod
 ```
 
 ## Test
 
 ```bash
 # unit tests
-$ npm run test
+$ yarn test
 
 # e2e tests
-$ npm run test:e2e
+$ yarn test:e2e
 
 # test coverage
-$ npm run test:cov
+$ yarn test:cov
+```
+
+## Migrations
+
+This application uses [TypeORM](https://typeorm.io/#/) to manage database queries and migrations.
+
+```bash
+# create a new migration file
+$ yarn typeorm migration:create -n {MIGRATION_NAME}
+
+# build and run migrations
+$ yarn db:migrate
+
+# build and rollback migration (last one)
+$ yarn db:migrate:rollback
 ```
 
 ## Support
