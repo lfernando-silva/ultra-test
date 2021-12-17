@@ -86,7 +86,6 @@ describe('GameService', () => {
     });
 
     it('should throw an error if sent data is not valid', async () => {
-      mockCreateGameDto.publisherId = 1234;
       mockCreateGameDto.title = faker.random.words(200);
       expect(gameService.create(mockCreateGameDto)).rejects.toThrow(
         BadRequestException,

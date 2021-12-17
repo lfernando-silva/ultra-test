@@ -3,7 +3,7 @@ import { NotFoundException } from '@nestjs/common';
 import { Connection } from 'typeorm';
 
 import { CreateGameDto } from './dto/create-game.dto';
-// import { UpdateGameDto } from './dto/update-game.dto';
+import { UpdateGameDto } from './dto/update-game.dto';
 
 import { GameRepository } from './repositories/game.repository';
 import { PublisherRepository } from './repositories/publisher.repository';
@@ -47,9 +47,34 @@ export class GameService {
     return `This action returns a #${id} game`;
   }
 
-  // update(id: number, updateGameDto: UpdateGameDto) {
-  //   return `This action updates a #${id} game`;
-  // }
+  async update(id: string, data: UpdateGameDto) {
+    const [game, publisher] = await Promise.all([
+      this.gameRepository.findOne(id),
+      this.publisherRepository.findOne(data.publisherId),
+    ]);
+
+    if (!game) {
+      throw new NotFoundException('Game was not found');
+    }
+
+    if (publisher) {
+      game.publisher = publisher;
+    }
+
+    const updateData = {
+      ...game,
+      ...data,
+    };
+
+    game.price = updateData.price;
+    game.title = updateData.title;
+    game.tags = updateData.tags;
+    game.releaseDate = updateData.releaseDate;
+
+    await this.gameRepository.save(game, { reload: true });
+
+    return game;
+  }
 
   remove(id: number) {
     return `This action removes a #${id} game`;
