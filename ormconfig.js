@@ -11,16 +11,9 @@ const gameEntitiesPath = join(
   '/*.{js,ts}',
 );
 
-const migrationsPath = join(
-  __dirname,
-  'dist',
-  'src',
-  'db',
-  'migrations',
-  '*.js',
-);
+const migrationsPath = join(__dirname, 'dist', 'src', 'migrations', '*.js');
 
-const migrationsDir = join(__dirname, 'src', 'db', 'migrations');
+const migrationsDir = join(__dirname, 'src', 'migrations');
 
 module.exports = {
   name: 'default',

@@ -1,48 +1,19 @@
-import { ConfigModule } from '@nestjs/config';
-import { Test, TestingModule } from '@nestjs/testing';
-import * as path from 'path';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Game } from '../entities/game.entity';
-import { GameService } from '../game.service';
-import { GameRepository } from '../repositories/game.repository';
-import { PublisherRepository } from '../repositories/publisher.repository';
-import config from '../../config';
-import { Publisher } from '../entities/publisher.entity';
+import { TestingModule } from '@nestjs/testing';
+import { GameService } from '../../game.service';
+import { Publisher } from '../../entities/publisher.entity';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { addDays } from 'date-fns';
 import * as faker from 'faker';
 import { getRepository } from 'typeorm';
-import truncate from '../helpers/truncate';
-
-const envFilePath = path.join(
-  process.cwd(),
-  `.env.${process.env.NODE_ENV || 'development'}`,
-);
+import truncate from '../../helpers/truncate';
+import createTestingModule from '../helpers/create-testing-module';
+import { generateGame } from '../helpers/generate-data';
 
 describe('GameService', () => {
   let moduleRef: TestingModule;
   let gameService: GameService;
 
   beforeAll(async () => {
-    moduleRef = await Test.createTestingModule({
-      imports: [
-        ConfigModule.forRoot({
-          load: [config],
-          envFilePath,
-        }),
-        TypeOrmModule.forRoot({
-          type: 'postgres',
-          host: process.env.DATABASE_HOST,
-          port: parseInt(process.env.DATABASE_PORT, 10),
-          username: process.env.DATABASE_USERNAME,
-          password: process.env.DATABASE_PASSWORD,
-          database: process.env.DATABASE_DBNAME,
-          entities: [Game, Publisher],
-        }),
-        TypeOrmModule.forFeature([Game, GameRepository, PublisherRepository]),
-      ],
-      providers: [GameService, GameRepository, PublisherRepository],
-    }).compile();
+    moduleRef = await createTestingModule();
 
     gameService = moduleRef.get<GameService>(GameService);
   });
@@ -59,21 +30,9 @@ describe('GameService', () => {
     beforeEach(async () => {
       await truncate();
       const publisher = await getRepository(Publisher).findOne();
-      mockCreateGameDto = {
-        title: faker.name.title(),
-        price: parseInt(faker.finance.amount(1), 10),
-        tags: faker.random.words(10).split(' '),
-        releaseDate: addDays(new Date(), Math.floor(Math.random() * 365)),
-        publisherId: publisher.id,
-      };
+      mockCreateGameDto = generateGame(publisher);
       game = await gameService.create(mockCreateGameDto);
-      mockUpdateGameDto = {
-        title: faker.name.title(),
-        price: parseInt(faker.finance.amount(1), 10),
-        tags: faker.random.words(10).split(' ') as string[],
-        releaseDate: addDays(new Date(), Math.floor(Math.random() * 365)),
-        publisherId: publisher.id,
-      };
+      mockUpdateGameDto = generateGame(publisher);
     });
 
     it('should update an existing game', async () => {

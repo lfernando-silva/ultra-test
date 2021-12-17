@@ -3,14 +3,13 @@ import {
   Get,
   Post,
   Body,
-  // Patch,
+  Patch,
   Param,
   Delete,
-  HttpStatus,
 } from '@nestjs/common';
 import { GameService } from './game.service';
 import { CreateGameDto } from './dto/create-game.dto';
-// import { UpdateGameDto } from './dto/update-game.dto';
+import { UpdateGameDto } from './dto/update-game.dto';
 
 @Controller('games')
 export class GameController {
@@ -18,11 +17,7 @@ export class GameController {
 
   @Post()
   async create(@Body() data: CreateGameDto) {
-    const game = await this.gameService.create(data);
-    return {
-      statusCode: HttpStatus.OK,
-      game,
-    };
+    return this.gameService.create(data);
   }
 
   @Get()
@@ -32,16 +27,16 @@ export class GameController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.gameService.findOne(+id);
+    return this.gameService.findOne(id);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateGameDto: UpdateGameDto) {
-  //   return this.gameService.update(+id, updateGameDto);
-  // }
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateGameDto: UpdateGameDto) {
+    return this.gameService.update(id, updateGameDto);
+  }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.gameService.remove(+id);
+    return this.gameService.remove(id);
   }
 }
