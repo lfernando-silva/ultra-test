@@ -8,10 +8,10 @@ import { GameRepository } from '../repositories/game.repository';
 import { PublisherRepository } from '../repositories/publisher.repository';
 import config from '../../config';
 import { Publisher } from '../entities/publisher.entity';
-import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { addDays } from 'date-fns';
 import * as faker from 'faker';
 import { getRepository } from 'typeorm';
+import { NotFoundException } from '@nestjs/common';
 import truncate from '../helpers/truncate';
 
 const envFilePath = path.join(
@@ -51,9 +51,8 @@ describe('GameService', () => {
     moduleRef.close();
   });
 
-  describe('Update Game', () => {
+  describe('Remove a Game', () => {
     let mockCreateGameDto;
-    let mockUpdateGameDto;
     let game;
 
     beforeEach(async () => {
@@ -67,58 +66,18 @@ describe('GameService', () => {
         publisherId: publisher.id,
       };
       game = await gameService.create(mockCreateGameDto);
-      mockUpdateGameDto = {
-        title: faker.name.title(),
-        price: parseInt(faker.finance.amount(1), 10),
-        tags: faker.random.words(10).split(' ') as string[],
-        releaseDate: addDays(new Date(), Math.floor(Math.random() * 365)),
-        publisherId: publisher.id,
-      };
     });
 
-    it('should update an existing game', async () => {
-      const response = await gameService.update(game.id, mockUpdateGameDto);
+    it('should remove an existing game', async () => {
+      const response = await gameService.remove(game.id);
       expect(response).toEqual({
         id: game.id,
-        title: mockUpdateGameDto.title,
-        price: mockUpdateGameDto.price,
-        tags: mockUpdateGameDto.tags,
-        releaseDate: expect.any(Date),
-        publisher: expect.objectContaining({
-          id: mockUpdateGameDto.publisherId,
-        }),
-      });
-    });
-
-    it('should update only one field from an existing game', async () => {
-      const title = 'Destiny 2 - Beyond The Light';
-      const response = await gameService.update(game.id, {
-        title,
-      });
-      expect(response).toEqual({
-        id: game.id,
-        title,
-        price: game.price,
-        tags: game.tags,
-        releaseDate: expect.any(Date),
-        publisher: expect.objectContaining({
-          id: game.publisher.id,
-        }),
       });
     });
 
     it('should throw an error if game does not exist', async () => {
       const id = faker.datatype.uuid();
-      expect(gameService.update(id, mockUpdateGameDto)).rejects.toThrow(
-        NotFoundException,
-      );
-    });
-
-    it('should throw an error if sent data is not valid', async () => {
-      const title = faker.random.words(200);
-      expect(gameService.update(game.id, { title })).rejects.toThrow(
-        BadRequestException,
-      );
+      expect(gameService.remove(id)).rejects.toThrow(NotFoundException);
     });
   });
 });

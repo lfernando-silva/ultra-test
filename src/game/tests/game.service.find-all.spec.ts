@@ -8,7 +8,6 @@ import { GameRepository } from '../repositories/game.repository';
 import { PublisherRepository } from '../repositories/publisher.repository';
 import config from '../../config';
 import { Publisher } from '../entities/publisher.entity';
-import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { addDays } from 'date-fns';
 import * as faker from 'faker';
 import { getRepository } from 'typeorm';
@@ -51,46 +50,41 @@ describe('GameService', () => {
     moduleRef.close();
   });
 
-  describe('Create Game', () => {
+  describe('Find all game (no pagination)', () => {
     let mockCreateGameDto;
+    let games;
 
     beforeEach(async () => {
       await truncate();
       const publisher = await getRepository(Publisher).findOne();
-      mockCreateGameDto = {
-        title: faker.name.title(),
-        price: parseInt(faker.finance.amount(1), 10),
-        tags: faker.random.words(10).split(' ') as string[],
-        releaseDate: addDays(new Date(), Math.floor(Math.random() * 365)),
-        publisherId: publisher.id,
-      };
-    });
+      const gamePromises = Array.from(
+        { length: Math.floor(Math.random() * 5) + 1 },
+        () => {
+          mockCreateGameDto = {
+            title: faker.name.title(),
+            price: parseInt(faker.finance.amount(1), 10),
+            tags: faker.random.words(10).split(' '),
+            releaseDate: addDays(new Date(), Math.floor(Math.random() * 365)),
+            publisherId: publisher.id,
+          };
 
-    it('should create a new game', async () => {
-      const response = await gameService.create(mockCreateGameDto);
-      expect(response).toEqual({
-        id: expect.any(String),
-        title: mockCreateGameDto.title,
-        price: mockCreateGameDto.price,
-        tags: mockCreateGameDto.tags,
-        releaseDate: expect.any(Date),
-        publisher: expect.objectContaining({
-          id: mockCreateGameDto.publisherId,
-        }),
-      });
-    });
-
-    it('should throw an error if publisher does not exist', async () => {
-      mockCreateGameDto.publisherId = faker.datatype.uuid();
-      expect(gameService.create(mockCreateGameDto)).rejects.toThrow(
-        NotFoundException,
+          return gameService.create(mockCreateGameDto);
+        },
       );
+
+      games = await Promise.all(gamePromises);
     });
 
-    it('should throw an error if sent data is not valid', async () => {
-      mockCreateGameDto.title = faker.random.words(200);
-      expect(gameService.create(mockCreateGameDto)).rejects.toThrow(
-        BadRequestException,
+    it('should find all existing games', async () => {
+      const response = await gameService.findAll();
+      const someRandomGameId =
+        games[Math.floor(Math.random() * (games.length - 1))].id;
+
+      expect(response).toHaveLength(games.length);
+      expect(response).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ id: someRandomGameId }),
+        ]),
       );
     });
   });

@@ -40,11 +40,20 @@ export class GameService {
   }
 
   findAll() {
-    return [`This action returns all games`];
+    return this.gameRepository.find({ relations: ['publisher'] });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} game`;
+  async findOne(id: string) {
+    const game = await this.gameRepository.findOne(
+      { id },
+      { relations: ['publisher'] },
+    );
+
+    if (!game) {
+      throw new NotFoundException('Game was not found');
+    }
+
+    return game;
   }
 
   async update(id: string, data: UpdateGameDto) {
@@ -76,7 +85,13 @@ export class GameService {
     return game;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} game`;
+  async remove(id: string) {
+    const result = await this.gameRepository.delete({ id });
+
+    if (!result.affected) {
+      throw new NotFoundException('Game was not found');
+    }
+
+    return { id };
   }
 }
