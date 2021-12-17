@@ -21,9 +21,8 @@ export class createTablePublisher1639525558555 implements MigrationInterface {
           },
           {
             name: 'siret',
-            type: 'float',
+            type: 'integer',
             isNullable: false,
-            default: 0,
           },
           {
             name: 'phone',

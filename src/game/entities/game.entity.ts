@@ -1,10 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Publisher } from './publisher.entity';
 
 @Entity('game')
 export class Game {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @Column()
+  title: string;
 
   @Column()
   price: number;
@@ -16,5 +25,6 @@ export class Game {
   releaseDate: Date;
 
   @ManyToOne(() => Publisher, (publisher) => publisher.games)
+  @JoinColumn({ name: 'publisher' })
   publisher: Publisher;
 }

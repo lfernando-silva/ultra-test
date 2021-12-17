@@ -20,6 +20,11 @@ export class createTableGame1639526258926 implements MigrationInterface {
             default: `uuid_generate_v4()`,
           },
           {
+            name: 'title',
+            type: 'varchar(150)',
+            isNullable: false,
+          },
+          {
             name: 'price',
             type: 'integer',
             isNullable: false,

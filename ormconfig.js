@@ -6,14 +6,21 @@ const gameEntitiesPath = join(
   __dirname,
   'dist',
   'src',
-  'games',
+  'game',
   'entities',
   '/*.{js,ts}',
 );
 
-const migrationsPath = join(__dirname, 'dist', 'migrations', '*.js');
+const migrationsPath = join(
+  __dirname,
+  'dist',
+  'src',
+  'db',
+  'migrations',
+  '*.js',
+);
 
-const migrationsDir = join(__dirname, 'src', 'migrations');
+const migrationsDir = join(__dirname, 'src', 'db', 'migrations');
 
 module.exports = {
   name: 'default',
@@ -22,7 +29,7 @@ module.exports = {
   port: env.DATABASE_PORT,
   username: env.DATABASE_USERNAME,
   password: env.DATABASE_PASSWORD,
-  database: env.DATABASE_DATABASE,
+  database: env.DATABASE_DBNAME,
   synchronize: false,
   entities: [gameEntitiesPath],
   migrations: [migrationsPath],
