@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { GameService } from './game.service';
 import { CreateGameDto } from './dto/create-game.dto';
@@ -34,22 +35,25 @@ export class GameController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.gameService.findOne(id);
   }
 
   @Get(':id/publisher')
-  findGamePublisher(@Param('id') id: string) {
+  findGamePublisher(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.gameService.findGamePublisher(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateGameDto: UpdateGameDto) {
+  update(
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Body() updateGameDto: UpdateGameDto,
+  ) {
     return this.gameService.update(id, updateGameDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.gameService.remove(id);
   }
 }
