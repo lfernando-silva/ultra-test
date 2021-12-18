@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { NotFoundException } from '@nestjs/common';
-import { Connection } from 'typeorm';
+import { endOfDay, format, startOfDay, subMonths } from 'date-fns';
+import { Between, Connection, LessThan } from 'typeorm';
 
 import { CreateGameDto } from './dto/create-game.dto';
 import { UpdateGameDto } from './dto/update-game.dto';
@@ -106,5 +107,30 @@ export class GameService {
     }
 
     return { id };
+  }
+
+  async processDiscounts() {
+    const eighteenMonthsAgoDate = subMonths(new Date(), 18);
+    const twelveMonthsAgoDate = subMonths(new Date(), 12);
+
+    // Remove games older than 18 months
+    await this.gameRepository.delete({
+      releaseDate: LessThan(format(eighteenMonthsAgoDate, 'yyyy-MM-dd')),
+    });
+
+    // Apply 20% discount to games with age between 12 and 18 months
+    await this.gameRepository.update(
+      {
+        releaseDate: Between(
+          startOfDay(new Date(eighteenMonthsAgoDate)),
+          endOfDay(new Date(twelveMonthsAgoDate)),
+        ),
+      },
+      {
+        price: () => 'price - 0.2 * price',
+      },
+    );
+
+    return true;
   }
 }

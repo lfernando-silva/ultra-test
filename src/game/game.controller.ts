@@ -20,6 +20,14 @@ export class GameController {
     return this.gameService.create(data);
   }
 
+  @Post('/process-discounts')
+  async processDiscounts() {
+    await this.gameService.processDiscounts();
+    return {
+      processed: true,
+    };
+  }
+
   @Get()
   findAll() {
     return this.gameService.findAll();
