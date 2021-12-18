@@ -5,6 +5,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
+
 import Publisher from './publisher.entity';
 
 @Entity('game')

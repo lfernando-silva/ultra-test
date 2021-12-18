@@ -1,10 +1,11 @@
-import { TestingModule } from '@nestjs/testing';
-import { Publisher } from '../../entities';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { TestingModule } from '@nestjs/testing';
 import * as faker from 'faker';
 import { getRepository } from 'typeorm';
-import truncate from '../../helpers/truncate';
+
+import { Publisher } from '../../entities';
 import { GameController } from '../../game.controller';
+import truncate from '../../helpers/truncate';
 import createTestingModule from '../helpers/create-testing-module';
 import { generateGame } from '../helpers/generate-data';
 

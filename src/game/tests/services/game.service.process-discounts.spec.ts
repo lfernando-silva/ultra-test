@@ -1,11 +1,12 @@
 import { TestingModule } from '@nestjs/testing';
-import { GameService } from '../../game.service';
-import { Publisher } from '../../entities';
+import { subMonths } from 'date-fns';
 import { getRepository } from 'typeorm';
+
+import { Publisher } from '../../entities';
+import { GameService } from '../../game.service';
 import truncate from '../../helpers/truncate';
 import createTestingModule from '../helpers/create-testing-module';
 import { generateGame } from '../helpers/generate-data';
-import { subMonths } from 'date-fns';
 
 describe('GameService', () => {
   let moduleRef: TestingModule;

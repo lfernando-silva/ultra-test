@@ -1,11 +1,12 @@
 import { TestingModule } from '@nestjs/testing';
-import { Publisher } from '../../entities';
 import { getRepository } from 'typeorm';
+
+import { Publisher } from '../../entities';
+import { GameController } from '../../game.controller';
+import { GameService } from '../../game.service';
 import truncate from '../../helpers/truncate';
 import createTestingModule from '../helpers/create-testing-module';
-import { GameController } from '../../game.controller';
 import { generateGames } from '../helpers/generate-data';
-import { GameService } from '../../game.service';
 
 describe('GameController', () => {
   let moduleRef: TestingModule;

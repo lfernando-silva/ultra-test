@@ -1,9 +1,10 @@
-import { TestingModule } from '@nestjs/testing';
-import { GameService } from '../../game.service';
-import { Publisher } from '../../entities';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { TestingModule } from '@nestjs/testing';
 import * as faker from 'faker';
 import { getRepository } from 'typeorm';
+
+import { Publisher } from '../../entities';
+import { GameService } from '../../game.service';
 import truncate from '../../helpers/truncate';
 import createTestingModule from '../helpers/create-testing-module';
 import { generateGame } from '../helpers/generate-data';

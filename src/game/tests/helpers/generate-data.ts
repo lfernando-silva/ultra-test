@@ -1,6 +1,7 @@
-import { Publisher } from '../../entities';
 import { addDays } from 'date-fns';
 import * as faker from 'faker';
+
+import { Publisher } from '../../entities';
 
 export function generateGame(publisher: Publisher) {
   return {

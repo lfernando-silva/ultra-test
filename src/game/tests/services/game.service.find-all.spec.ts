@@ -1,7 +1,8 @@
 import { TestingModule } from '@nestjs/testing';
-import { GameService } from '../../game.service';
-import { Publisher } from '../../entities';
 import { getRepository } from 'typeorm';
+
+import { Publisher } from '../../entities';
+import { GameService } from '../../game.service';
 import truncate from '../../helpers/truncate';
 import createTestingModule from '../helpers/create-testing-module';
 import { generateGames } from '../helpers/generate-data';

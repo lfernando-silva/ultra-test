@@ -1,12 +1,13 @@
 import { ConfigModule } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
-import * as path from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { GameService } from '../../game.service';
-import { PublisherRepository, GameRepository } from '../../repositories';
+import * as path from 'path';
+
 import config from '../../../config';
 import { Publisher, Game } from '../../entities';
 import { GameController } from '../../game.controller';
+import { GameService } from '../../game.service';
+import { PublisherRepository, GameRepository } from '../../repositories';
 
 const envFilePath = path.join(
   process.cwd(),

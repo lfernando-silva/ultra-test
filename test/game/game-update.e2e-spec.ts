@@ -1,12 +1,13 @@
-import * as faker from 'faker';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { TestingModule } from '@nestjs/testing';
+import * as faker from 'faker';
+import * as request from 'supertest';
+import { getRepository } from 'typeorm';
+
 import { Publisher } from '../../src/game/entities';
 import truncate from '../../src/game/helpers/truncate';
 import { generateGame } from '../../src/game/tests/helpers/generate-data';
-import * as request from 'supertest';
 import { createTestingModule } from '../helpers/init-app';
-import { getRepository } from 'typeorm';
-import { TestingModule } from '@nestjs/testing';
 
 describe('GamesController - Update (e2e)', () => {
   let app: INestApplication;

@@ -8,9 +8,10 @@ import {
   Delete,
   ParseUUIDPipe,
 } from '@nestjs/common';
-import { GameService } from './game.service';
+
 import { CreateGameDto } from './dto/create-game.dto';
 import { UpdateGameDto } from './dto/update-game.dto';
+import { GameService } from './game.service';
 
 @Controller('games')
 export class GameController {
