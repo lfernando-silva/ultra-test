@@ -10,7 +10,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const { httpAdapter } = app.get(HttpAdapterHost);
   const config = new DocumentBuilder()
-    .setTitle('Ultra.io Game API')
+    .setTitle('Ultra.io Games API')
     .setDescription('Test API')
     .setVersion('1.0')
     .addTag('games')
