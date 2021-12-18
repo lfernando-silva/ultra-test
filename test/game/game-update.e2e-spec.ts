@@ -8,7 +8,7 @@ import { createTestingModule } from '../helpers/init-app';
 import { getRepository } from 'typeorm';
 import { TestingModule } from '@nestjs/testing';
 
-describe('GamesController - Create (e2e)', () => {
+describe('GamesController - Update (e2e)', () => {
   let app: INestApplication;
   let moduleRef: TestingModule;
   let mockCreateGameDto;

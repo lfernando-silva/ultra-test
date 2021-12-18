@@ -9,7 +9,7 @@ import { createTestingModule } from '../helpers/init-app';
 import { getRepository } from 'typeorm';
 import { TestingModule } from '@nestjs/testing';
 
-describe('GamesController - Remove (e2e)', () => {
+describe('GamesController - Find One Game Publisher (e2e)', () => {
   let app: INestApplication;
   let moduleRef: TestingModule;
   let gameService: GameService;
@@ -34,22 +34,18 @@ describe('GamesController - Remove (e2e)', () => {
     game = await gameService.create(mockCreateGameDto);
   });
 
-  it('/games/:id (DELETE)', async () => {
+  it('/games/:id/publisher (GET)', async () => {
     const { body } = await request(app.getHttpServer())
-      .delete(`/games/${game.id}`)
+      .get(`/games/${game.id}/publisher`)
       .expect(200);
 
-    expect(body).toEqual(
-      expect.objectContaining({
-        id: game.id,
-      }),
-    );
+    expect(body).toEqual(expect.objectContaining(game.publisher));
   });
 
-  it('/games/:id (DELETE) - 404', async () => {
+  it('/games/:id/publisher (GET) - 404', async () => {
     const uuid = faker.datatype.uuid();
     const { body } = await request(app.getHttpServer())
-      .delete(`/games/${uuid}`)
+      .get(`/games/${uuid}/publisher`)
       .expect(404);
 
     expect(body).toEqual({
