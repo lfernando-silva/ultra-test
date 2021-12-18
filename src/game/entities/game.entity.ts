@@ -5,10 +5,10 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { Publisher } from './publisher.entity';
+import Publisher from './publisher.entity';
 
 @Entity('game')
-export class Game {
+export default class Game {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

@@ -1,6 +1,6 @@
 import { TestingModule } from '@nestjs/testing';
 import { GameService } from '../../game.service';
-import { Publisher } from '../../entities/publisher.entity';
+import { Publisher } from '../../entities';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import * as faker from 'faker';
 import { getRepository } from 'typeorm';

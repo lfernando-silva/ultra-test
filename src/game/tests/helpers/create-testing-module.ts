@@ -2,12 +2,10 @@ import { ConfigModule } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import * as path from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Game } from '../../entities/game.entity';
 import { GameService } from '../../game.service';
-import { GameRepository } from '../../repositories/game.repository';
-import { PublisherRepository } from '../../repositories/publisher.repository';
+import { PublisherRepository, GameRepository } from '../../repositories';
 import config from '../../../config';
-import { Publisher } from '../../entities/publisher.entity';
+import { Publisher, Game } from '../../entities';
 import { GameController } from '../../game.controller';
 
 const envFilePath = path.join(

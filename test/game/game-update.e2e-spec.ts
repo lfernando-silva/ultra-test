@@ -1,6 +1,6 @@
 import * as faker from 'faker';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
-import { Publisher } from '../../src/game/entities/publisher.entity';
+import { Publisher } from '../../src/game/entities';
 import truncate from '../../src/game/helpers/truncate';
 import { generateGame } from '../../src/game/tests/helpers/generate-data';
 import * as request from 'supertest';

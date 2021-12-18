@@ -1,4 +1,4 @@
-import { Publisher } from '../../entities/publisher.entity';
+import { Publisher } from '../../entities';
 import { addDays } from 'date-fns';
 import * as faker from 'faker';
 

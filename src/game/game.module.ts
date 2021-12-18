@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Game } from './entities/game.entity';
+import { Game } from './entities';
 import { GameService } from './game.service';
-import { GameRepository } from './repositories/game.repository';
 import { GameController } from './game.controller';
-import { PublisherRepository } from './repositories/publisher.repository';
+import { PublisherRepository, GameRepository } from './repositories';
 
 @Module({
   imports: [

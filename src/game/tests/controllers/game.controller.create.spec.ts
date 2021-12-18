@@ -1,5 +1,5 @@
 import { TestingModule } from '@nestjs/testing';
-import { Publisher } from '../../entities/publisher.entity';
+import { Publisher } from '../../entities';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import * as faker from 'faker';
 import { getRepository } from 'typeorm';
